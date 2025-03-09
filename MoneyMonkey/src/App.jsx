@@ -1,29 +1,38 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
+import { Link } from "react-router-dom";
 import "./App.css";
+import { BrowserRouter as Router } from "react-router-dom";
+
 
 function App() {
   return (
     <div>
       <Header />
-      <Home />
+      <Home /> 
     </div>
   );
 }
 
+
+
 function Header() {
   return (
     <header className="header">
-      <h1 className="logo">
-        <span>Money</span>
-        <span className="highlight">Monkey</span>
-      </h1>
-      <p classname ="menuOption" > 
-        login 
-      </p>
+      <nav className="navbar">
+        <div className="logo">Money<span className="highlight">Monkey</span></div>
+        <ul className="nav-menu">
+          <li><a>Home</a></li>
+          <li><a>Home</a></li>
+          <li><a>Home</a></li>
+          <li><a>Home</a></li>
+        </ul>
+      </nav>
     </header>
   );
 }
+
+
 
 function Home() {
   const [option, setOption] = useState("AiPredict");
@@ -33,6 +42,9 @@ function Home() {
 
   return (
     <div className="container">
+      <div className="form-box">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Odit eum itaque perspiciatis aliquam error ipsa officia voluptas vitae, quia eligendi facilis culpa assumenda rem nemo impedit consequatur pariatur? Eum, ipsum!
+      </div>
       <div className="form-box">
         <form method="post" action="/result" className="form">
           <input
@@ -99,7 +111,13 @@ function Home() {
   );
 }
 
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+root.render(
+  <Router>
+    <App />
+  </Router>
+)
 
 export default App;

@@ -7,9 +7,14 @@ body {
 
 .header {
   background-color: #333;
-  color: white;
   padding: 15px;
-  text-align: center;
+  color: white;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
@@ -17,15 +22,39 @@ body {
   font-weight: bold;
 }
 
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-menu li {
+  display: inline;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-menu a:hover {
+  text-decoration: underline;
+}
+
+
 .highlight {
   color: rgb(241, 226, 3);
 }
 
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: row;
   align-items: center;
   height: 100vh;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px; 
 }
 
 .form-box {
@@ -34,13 +63,14 @@ body {
   border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   width: 80%;
-  height: 80%;
+  
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 70px;
 }
 
 .input-field {
