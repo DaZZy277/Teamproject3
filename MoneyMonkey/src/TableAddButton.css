@@ -1,0 +1,26 @@
+.TA-button {
+    background: none; /* Bright yellow */
+    color: #212121; /* Dark text for contrast */
+    font-family: "IBM Plex Sans Thai", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0095FF;
+    width: 150px; /* Fixed width */
+    height: 40px; /* Fixed height */
+    border:  2px solid #0095FF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: none; /* Match FillBox shadow */
+}
+
+.TA-button:hover {
+    background:none; /* Slightly darker yellow */
+    box-shadow: 0 0 5px #0095FF;
+    border: 2px solid #0095FF;
+}
+
+.TA-button:active {
+    background: #f2f2f2;
+    transform: scale(0.98);
+    box-shadow: 0 0 12px #0095FF;
+}
