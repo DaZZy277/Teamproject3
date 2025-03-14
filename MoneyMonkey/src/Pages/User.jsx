@@ -1,9 +1,13 @@
 import React from "react";
+import Archive from "../Archive";
+import CenteredBlock from "../CenteredBlock";
 
 
 export const User = () => {
     return (
-        <div>
-        </div>
+        <CenteredBlock>
+        <Archive>
+        </Archive>
+        </CenteredBlock>
     );
 }
