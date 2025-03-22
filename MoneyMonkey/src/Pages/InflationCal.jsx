@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import CenteredBlock from "../CenteredBlock";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+const PredictUrl = "http://52.77.219.134:5050/predict";
 
 export const InflationCal = () => {
     // ✅ State for form data
@@ -36,7 +37,10 @@ export const InflationCal = () => {
         }
 
         // ✅ Calculate the result
-        const calculatedResult = (money * (1.02) ** years).toFixed(2);
+
+
+        const predict = 1.03;
+        const calculatedResult = (money * (predict) ** years).toFixed(2);
         const percent = ((calculatedResult - money) / money * 100).toFixed(2);
         // ✅ Update state & Show modal
         setFormData((prev) => ({ ...prev, Result: calculatedResult , Percentage: percent}));

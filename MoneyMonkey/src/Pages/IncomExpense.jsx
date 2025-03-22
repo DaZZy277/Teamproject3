@@ -154,8 +154,8 @@ export const IncomeExpense = () => {
 
             {/* Add Expense Button */}
             <div className="d-flex justify-content-center mt-3">
-                <Button variant="primary" onClick={() => setShowAddModal(true)}>
-                    ➕ เพิ่มรายการ
+                <Button variant="success" onClick={() => setShowAddModal(true)}>
+                    + เพิ่มรายการ
                 </Button>
             </div>
 
