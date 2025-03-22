@@ -8,6 +8,6 @@ async function hello(req, res) {
 }
 //console
 // Routes
-router.get("/", hello);
+router.get("/test", hello);
 
 module.exports = router;
