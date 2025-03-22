@@ -17,9 +17,9 @@ url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/gviz/tq?tqx=out:csv&sh
 # อ่านเข้า pandas
 df = pd.read_csv(url)
 
-# เลือกแถวที่ 14 และ 24 (ใน Python, index เริ่มจาก 0)
-inflation_change_data = df.iloc[13, 2:47].values  
-current_account_data = df.iloc[23, 2:47].values  
+# เลือกแถวที่ 14 และ 24 และแปลงค่าเป็น float
+inflation_change_data = df.iloc[13, 2:47].astype(float).values
+current_account_data = df.iloc[23, 2:47].astype(float).values
 
 # แสดงข้อมูลที่เลือก
 print("Inflation Data:", inflation_change_data)
@@ -193,11 +193,11 @@ else:
     print(f"Shape mismatch: predicted_full ({len(predicted_full)}) vs inflation_change_data ({len(inflation_change_data)})")
 
 
-   
+
+print([float(x) for x in future_predictions])
 
 
 
-print(future_predictions)
 
 
 def predict(n_years,initial_amount):
