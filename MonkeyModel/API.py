@@ -14,6 +14,7 @@ def predict():
 
     # รับ input (จำนวนปีและจำนวนเงินเริ่มต้น) จาก request
     data = request.get_json()
+    # print(data)
 
     try:
         # แปลงค่า n_years และ initial_amount เป็น int
@@ -24,9 +25,12 @@ def predict():
 
     # เรียกใช้ฟังก์ชันใน models.py เพื่อทำนายผล
     predictions = models.predict(n_years, initial_amount)
+    # print(predictions)
 
     # ส่งคืนผลลัพธ์กลับเป็น JSON
     return jsonify(predictions)
+    # return "Success", 200
+    # return n_years, initial_amount
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5050))

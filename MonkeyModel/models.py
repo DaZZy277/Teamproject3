@@ -196,7 +196,7 @@ else:
 
 print([float(x) for x in future_predictions])
 
-
+finalpredict = [float(x) for x in future_predictions]
 
 
 
@@ -213,11 +213,11 @@ def predict(n_years,initial_amount):
     result = []  # เพื่อเก็บจำนวนเงินของแต่ละปี
 
     for i in range(n_years):
-        inflat_rate = future_predictions[i] / 100  # เปลี่ยนจาก % เป็นทศนิยม
+        inflat_rate = finalpredict[i] / 100  # เปลี่ยนจาก % เป็นทศนิยม
         amount += amount*inflat_rate # บวกเปอร์เซ็นต์เงินเฟ้อในปีนั้น
         result.append({
             'year': i+1,
-            'inflation_rate': future_predictions[i],
+            'inflation_rate': finalpredict[i],
             'amount': round(amount,2) # ปัดเศษให้เหลือ 2 ตำแหน่ง
         })
     
