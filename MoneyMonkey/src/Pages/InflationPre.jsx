@@ -11,7 +11,7 @@ export const InflationPre = () => {
                 <h2>ทำนายเงินเฟ้อ (Version 0.1)</h2>
                 <FillBox placeholder={"จำนวนเงิน"}/>
                 <FillBox placeholder={"จำนวนปี"}/>
-                <SubmitButton/> 
+                <SubmitButton text="คำนวน"/> 
           </CenteredBlock>
         </div>
     );
