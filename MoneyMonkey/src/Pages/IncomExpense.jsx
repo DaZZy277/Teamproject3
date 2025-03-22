@@ -6,6 +6,7 @@ import TableAddButton from "../TableAddButton";
 import ITableContent from "../ITableContent";
 import InvisWindow from "../InvisWindow";
 import FillBox from "../FillBox";
+import Disappear from "../InvisWindow";
 
 export const IncomeExpense = () => {
     return (
@@ -22,12 +23,14 @@ export const IncomeExpense = () => {
                     <FillBox placeholder={"รายการ"}  /> 
                     <FillBox placeholder={"จำนวณเงิน"}  /> 
                 </div>
-                <SubmitButton />
+                <SubmitButton text="เพิ่ม" onClick={() => alert("added")  }/>
+                
+                
             </InvisWindow>
             <div>
                 <TableAddButton onClick={IncomeAddWindowSummon}>⨁</TableAddButton>
                 <a class="wspace"></a>
-                <SubmitButton />
+                <SubmitButton text="ยืนยัน"/>
             </div>
         </CenteredBlock>
 

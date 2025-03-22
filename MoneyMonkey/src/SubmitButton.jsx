@@ -1,7 +1,7 @@
 import React from "react";
 import "./SubmitButton.css"; 
 
-const SubmitButton = ({ text = "ยืนยัน", onClick }) => {
+const SubmitButton = ({ text = "", onClick }) => {
     return (
         <button className="submit-button" onClick={onClick}>
             {text}
