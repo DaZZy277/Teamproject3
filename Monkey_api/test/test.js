@@ -26,4 +26,12 @@ router.post("/regdata", test);
 router.post("/logindata", test2);
 router.post("/resultsave", test);
 
+router.post('/expenses', (req, res) => {
+    const newExpense = req.body;
+    // expenses.push(newExpense);
+     console.log(req.body) // Save to in-memory array (or a database in real apps)
+    res.status(201).json(newExpense)
+     // Return the saved expense to the frontend
+});
+
 module.exports = router;

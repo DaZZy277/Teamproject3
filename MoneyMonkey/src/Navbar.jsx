@@ -9,7 +9,7 @@ export const Navbar = () => {
       <Link to="/" className='title'>MonkeyMoney<span className='dotcom'>.com</span></Link>
       <ul>
         <li><Link to="/InflationCal">คำนวณเงินเฟ้อ</Link></li>
-        <li><Link to="/InflationPre">ทำนายเงินเฟ้อ</Link></li>
+        {/* <li><Link to="/InflationPre">ทำนายเงินเฟ้อ</Link></li> */}
         <li><Link to="/IncomeExpense">บัญชีรายรับรายจ่าย</Link></li> 
         
       </ul>

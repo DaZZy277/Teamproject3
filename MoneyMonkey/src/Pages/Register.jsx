@@ -1,7 +1,6 @@
-
-import FillBox from "../FillBox";
-import SubmitButton from "../SubmitButton";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import SubmitButton from "../SubmitButton";
 
 export const Register = () => {
     // ✅ State for form data
@@ -17,30 +16,36 @@ export const Register = () => {
     };
 
     // ✅ Handle form submission
-    const handleSubmit =  (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ✅ Show alert with entered values
-        // alert(`You entered: \nEmail: ${formData.email} \nPassword: ${formData.pass} \nConfirm Password: ${formData.confirmpass}`);
+        // ✅ Check if passwords match
+        if (formData.pass !== formData.confirmpass) {
+            alert("รหัสผ่านไม่ตรงกัน กรุณาลองใหม่!"); // Alert when passwords don’t match
+            return; // Stop the function, do NOT send data
+        }
 
-        // ✅ Send POST request to Node.js backend
         try {
-            const response = fetch('http://localhost:5000/app/regdata', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(formData) // Send the form data as JSON
+            const response = await fetch('http://localhost:5000/app/regdata', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData) // Send form data
             });
-      
-             const result = response.json();
-             console.log(result); // Log the response from the backend
-      
-            // Optionally, clear the form after submission
-            setFormData({ ...formData, [e.target.name]: e.target.value });
-          } catch (error) {
+
+            const result = await response.json();
+            console.log("Backend Response:", result);
+
+            // ✅ Optionally clear the form after submission
+            setFormData({
+                email: "",
+                pass: "",
+                confirmpass: ""
+            });
+        } catch (error) {
             console.error('Error:', error);
-          }
+        }
     };
 
     return (
@@ -53,6 +58,8 @@ export const Register = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
+                    type="email"
+                    required
                 />
                 <input
                     type="password"
@@ -61,6 +68,7 @@ export const Register = () => {
                     name="pass"
                     value={formData.pass}
                     onChange={handleChange}
+                    required
                 />
                 <input
                     type="password"
@@ -69,8 +77,12 @@ export const Register = () => {
                     name="confirmpass"
                     value={formData.confirmpass}
                     onChange={handleChange}
+                    required
                 />
                 <SubmitButton text="ลงทะเบียน" type="submit" />
+                <Link to="/Login" className="Register">
+                    <h6>มีบัญชีอยู่แล้ว</h6>
+                </Link>
             </div>
         </form>
     );
