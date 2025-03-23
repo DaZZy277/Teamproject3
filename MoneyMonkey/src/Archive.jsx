@@ -4,6 +4,8 @@ import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Archive.css'
 import Modal from 'react-bootstrap/Modal';
+import { Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Archive() {
     const [show, setShow] = useState(false);
@@ -12,21 +14,21 @@ function Archive() {
       const handleShow = () => setShow(true);
     
   return (
-
+    <Col>
     <Card className="text-center">
-      <Card.Header><Card.Title>Special title treatment</Card.Title></Card.Header>
+      <Card.Header><Card.Title>Result</Card.Title></Card.Header>
       <Card.Body>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+        <p>จำนวนเงินที่คุณกรอกคือ Money_input บาท</p>
         </Card.Text>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+          <p>จำนวนปีที่คุณกรอกคือ Year_input ปี</p>
         </Card.Text>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+         <p>จำนวนเงินที่คุณกรอกจะเปลี่ยนเป็น Result บาท</p>
         </Card.Text>
         <Card.Text>
-          With supporting text below as a natural lead-in to additional content.
+          <p>เปลี่ยนแปลงเป็นเงินเฟ้อ Percentage %</p>
         </Card.Text>
         <>
       <Button variant="danger" onClick={handleShow}>
@@ -51,7 +53,7 @@ function Archive() {
       </Card.Body>
       <Card.Footer className="text-muted">2 days ago</Card.Footer>
     </Card>
-        
+    </Col>    
   );
 
 }

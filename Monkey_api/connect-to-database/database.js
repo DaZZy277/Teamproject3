@@ -16,7 +16,7 @@ async function connectDB() {
       useUnifiedTopology: true,
     });
     db = client.db(DB_NAME);
-    // console.log("✅ MongoDB Connected");
+    console.log("✅ MongoDB Connected");
     return db;
   } catch (err) {
     console.error("❌ MongoDB Connection Error:", err);

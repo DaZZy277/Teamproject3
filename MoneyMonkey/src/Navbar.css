@@ -15,6 +15,23 @@
 .navbar-brand .dotcom {
     font-size: 20px;
     color: #F7F7F7;
+    
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+    border: none;
+    width: 40px;
+    justify-content: center;
+}
+
+.navbar-toggler-icon{
+    display: flex;
+    justify-self: center;
+}
+
+.nav-item{
+    cursor: pointer;
 }
 
 /* Navbar Links */

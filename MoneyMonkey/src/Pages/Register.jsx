@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SubmitButton from "../SubmitButton";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
     // ✅ State for form data
@@ -26,6 +27,21 @@ export const Register = () => {
         }
 
         try {
+            //if has local storage
+            const localformData =  JSON.parse(localStorage.getItem("inflationFormData"));
+            if (localformData){
+                const bodyData = { ...localformData, ...formData };
+                    const response_local = await fetch("http://localhost:5000/app/resultsave", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(bodyData),
+                });
+
+            const result_local = response_local.json();
+            console.log("Backend Response:", result_local);
+            }
+
+            // Send form register data to the server
             const response = await fetch('http://localhost:5000/app/regdata', {
                 method: 'POST',
                 headers: {
@@ -35,6 +51,16 @@ export const Register = () => {
             });
 
             const result = await response.json();
+            const status = response.status;
+            console.log(status);
+            if (status === 400) {
+               alert("the email already exists");
+               return;
+            }else{
+               alert("regster successful");
+               localStorage.setItem("useremail", "keep_login");
+               console.log(result)
+            }
             console.log("Backend Response:", result);
 
             // ✅ Optionally clear the form after submission
