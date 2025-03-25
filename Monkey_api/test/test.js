@@ -178,9 +178,6 @@ async function deleteExpenses(req, res) {
     }
 }
 
-// Add the route for deleting results
-
-
 // Routes
 router.get("/lol", hello);
 router.post("/regdata", checkLoginRegister);
