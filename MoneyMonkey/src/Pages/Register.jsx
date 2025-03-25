@@ -60,6 +60,7 @@ export const Register = () => {
                alert("regster successful");
                localStorage.setItem("useremail", "keep_login");
                console.log(result)
+               navigate("/login");
             }
             console.log("Backend Response:", result);
 

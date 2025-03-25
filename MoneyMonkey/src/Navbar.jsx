@@ -79,7 +79,7 @@ export const Navbar = () => {
               <>
                 <li className="nav-item">
                   <span className="nav-link text-warning" onClick={handleUserClick}>
-                    User
+                    {localStorage.getItem("useremail")}
                   </span>
                 </li>
                 <li className="nav-item">

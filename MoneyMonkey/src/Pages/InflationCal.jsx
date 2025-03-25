@@ -113,37 +113,62 @@ export const InflationCal = () => {
 
   // ✅ Check login before saving
   const handleSaveAndClose = async () => {
-    const isLoggedIn = localStorage.getItem("userToken"); // Example login check
-
-    if (!isLoggedIn) {
-      console.log("กรุณาเข้าสู่ระบบก่อนบันทึกข้อมูล!");
+    const email = localStorage.getItem("useremail"); // Example login check
+  
+    if (!email) {
+      console.log("กรุณาเข้าสู่ระบบก่อนบันทึกข้อมูล!"); // Please log in before saving data
       setIsRedirecting(true);
       navigate("/Login");
-
-    //   return;
+      return; // Prevent saving if not logged in
     }
-
-    // try {
-    //     const localformData = JSON.parse(localStorage.getItem("inflationFormData"));
-    //     console.log("Local Form Data:", localformData);
-    //     if (localformData){
-    //             const response = await fetch("http://localhost:5000/app/resultsave", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify(localformData),
-    //         });
-
-    //         const result = await response.json();
-    //         console.log("Backend Response:", result);
-    //     }
-    
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
-
+  
+    try {
+      // Retrieve form data from localStorage
+      const localformData = JSON.parse(localStorage.getItem("inflationFormData"));
+      console.log("Local Form Data:", localformData);
+  
+      if (localformData) {
+        // Add email to the form data
+        localformData.email = email;
+  
+        // Send form data with email to the backend
+        const response = await fetch("http://localhost:5000/app/resultsave", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(localformData), // Send updated form data with email
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to save data to the server.");
+        }
+  
+        const result = await response.json();
+        console.log("Backend Response:", result);
+        // You can perform additional actions based on the response here, such as showing a success message.
+  
+        // Clear the local form data after saving successfully
+        localStorage.removeItem("inflationFormData");
+  
+        // Redirect to /User after saving is successful
+        navigate("/User");
+  
+      } else {
+        console.log("No form data found in localStorage.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  
     // ✅ Close Modal
     setModalShow(false);
   };
+  
+  
+  
+  
+  
 
   // ✅ Close modal without saving
   const handleCloseWithoutSave = () => {

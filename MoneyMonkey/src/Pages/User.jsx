@@ -67,7 +67,7 @@ export const User = () => {
         
         <div style={{ padding: "20px", display: "block", justifyContent: "center", alignItems: "center", height: "100vh", marginTop: "80px" }}>
             <Container>
-                <Row xs={1} sm={2} md={3} lg={4} className="g-4 justify-content-center">
+                <Row xs={1} sm={2} md={2} lg={3} className="g-4 justify-content-center">
                     {/* Map through results and display them in cards */}
                     {results.map((result, index) => (
                         <Col key={index} className="d-flex justify-content-center">
@@ -77,16 +77,16 @@ export const User = () => {
                                 </Card.Header>
                                 <Card.Body>
                                     <Card.Text>
-                                        <div>จำนวนเงินที่คุณกรอกคือ {result.Money_input} บาท</div>
+                                        จำนวนเงินที่คุณกรอกคือ {result.Money_input} บาท
                                     </Card.Text>
                                     <Card.Text>
-                                        <div>จำนวนปีที่คุณกรอกคือ {result.Year_input} ปี</div>
+                                        จำนวนปีที่คุณกรอกคือ {result.Year_input} ปี
                                     </Card.Text>
                                     <Card.Text>
-                                        <div>จำนวนเงินที่คุณกรอกจะเปลี่ยนเป็น {result.Result} บาท</div>
+                                       จำนวนเงินที่คุณกรอกจะเปลี่ยนเป็น {result.Result} บาท
                                     </Card.Text>
                                     <Card.Text>
-                                        <div>เปลี่ยนแปลงเป็นเงินเฟ้อ {result.Percentage} %</div>
+                                        เปลี่ยนแปลงเป็นเงินเฟ้อ {result.Percentage} %
                                     </Card.Text>
 
                                     {/* Button to trigger modal */}
