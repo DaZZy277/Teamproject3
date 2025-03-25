@@ -1,121 +1,229 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CenteredBlock from "../CenteredBlock";
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
+const PredictUrl = "http://52.77.219.134:5050/predict";
+
+
 
 export const InflationCal = () => {
-    // ✅ State for form data
-    const [formData, setFormData] = useState({
-        Money_input: "",
-        Year_input: "",
-        Result: "" ,
-        Percentage: ""   
+  // ✅ Load saved form data from local storage
+  const savedFormData = JSON.parse(localStorage.getItem("inflationFormData")) || {
+    Money_input: "",
+    Year_input: "",
+    Result: "",
+    Percentage: ""
+  };
+
+  const [formData, setFormData] = useState(savedFormData);
+  const [modalShow, setModalShow] = useState(false);
+  const [loading, setLoading] = useState(false); // Track API request status
+  
+  // ✅ Use navigate hook to redirect
+  const navigate = useNavigate();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  // ✅ Save to local storage on form change
+  useEffect(() => {
+    localStorage.setItem("inflationFormData", JSON.stringify(formData));
+  }, [formData]);
+
+  // ✅ Update state when input values change
+  const handleChange = (e) => {
+    setFormData({ 
+      ...formData, 
+      [e.target.name]: e.target.value 
     });
+  };
 
-    const [modalShow, setModalShow] = useState(false);
+  // ✅ Handle API request to get prediction
+  const handleCalculate = async (e) => {
+    e.preventDefault();
+    
+    // Convert inputs to numbers
+    const money = parseFloat(formData.Money_input);
+    const years = parseInt(formData.Year_input);
 
-    // ✅ Update state when input values change
-    const handleChange = (e) => {
-        setFormData({ 
-            ...formData, 
-            [e.target.name]: e.target.value 
+    // Validate inputs
+    if (isNaN(money) || money <= 0 || isNaN(years) || years <= 0) {
+        alert("กรุณากรอกค่าที่ถูกต้อง!");
+        return;
+    }
+
+    try {
+        setLoading(true); // Start loading
+
+        // Fetch API request
+        const response = await fetch(PredictUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                "n_years": years,
+                "initial_amount": money
+            })
         });
-    };
 
-    // ✅ Handle calculation (No backend request yet)
-    const handleCalculate = (e) => {
-        e.preventDefault();
-
-        // Convert inputs to numbers
-        const money = parseFloat(formData.Money_input) || 0;
-        const years = parseInt(formData.Year_input) || 0;
-
-        if (money <= 0 || years <= 0) {
-            alert("กรุณากรอกค่าที่ถูกต้อง!");
-            return;
+        // Validate response
+        if (!response.ok) {
+            throw new Error("เกิดข้อผิดพลาดในการดึงข้อมูลจาก API!");
         }
 
-        // ✅ Calculate the result
-        const calculatedResult = (money * (1.02) ** years).toFixed(2);
-        const percent = ((calculatedResult - money) / money * 100).toFixed(2);
-        // ✅ Update state & Show modal
-        setFormData((prev) => ({ ...prev, Result: calculatedResult , Percentage: percent}));
-        setModalShow(true);
-    };
+        const data = await response.json();
+        console.log("API Response:", data);
+        console.log("API Response:", typeof(data));
+        // console.log("API Response:", data[1]);
+        // for (let i = 0; i < data.length; i++) {
+        //   console.log(data[i]);
+        // }
+        console.log("API Response:", data[data.length - 1]);
+        // Ensure we have data and it's an array
+        if (data.length > 0) {
+            // Get the last entry from the API response
+            const lastEntry = data[data.length - 1];
 
-    // ✅ Send data to backend
-    const handleSaveAndClose = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/app/resultsave', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData) // Send data after closing modal
-            });
+                // Use the final_amount for calculation
+                const calculatedResult = parseFloat(lastEntry.amount).toFixed(2);
+                
+                // Calculate percentage based on initial amount and final amount
+                const percent = ((calculatedResult - money) / money * 100).toFixed(2);
 
-            const result = await response.json();
-            console.log("Backend Response:", result);
-        } catch (error) {
-            console.error('Error:', error);
+                // Update state with the results
+                setFormData((prev) => ({
+                    ...prev,
+                    Result: calculatedResult,
+                    Percentage: percent
+                }));
+
+                setModalShow(true); // Show modal with result
+            
+        } else {
+            throw new Error("API response does not have expected data format.");
         }
+    } catch (error) {
+        alert("ไม่สามารถเชื่อมต่อกับ API ได้!");
+        console.error("Error:", error);
+    } finally {
+        setLoading(false); // Stop loading
+    }
+};;
 
-        // ✅ Close Modal
-        setModalShow(false);
-    };
 
-    // ✅ Close modal without sending data
-    const handleCloseWithoutSave = () => {
-        setModalShow(false);
-    };
+  // ✅ Check login before saving
+  const handleSaveAndClose = async () => {
+    const email = localStorage.getItem("useremail"); // Example login check
+  
+    if (!email) {
+      console.log("กรุณาเข้าสู่ระบบก่อนบันทึกข้อมูล!"); // Please log in before saving data
+      setIsRedirecting(true);
+      navigate("/Login");
+      return; // Prevent saving if not logged in
+    }
+  
+    try {
+      // Retrieve form data from localStorage
+      const localformData = JSON.parse(localStorage.getItem("inflationFormData"));
+      console.log("Local Form Data:", localformData);
+  
+      if (localformData) {
+        // Add email to the form data
+        localformData.email = email;
+  
+        // Send form data with email to the backend
+        const response = await fetch("http://localhost:5000/app/resultsave", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(localformData), // Send updated form data with email
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to save data to the server.");
+        }
+  
+        const result = await response.json();
+        console.log("Backend Response:", result);
+        // You can perform additional actions based on the response here, such as showing a success message.
+  
+        // Clear the local form data after saving successfully
+        localStorage.removeItem("inflationFormData");
+  
+        // Redirect to /User after saving is successful
+        navigate("/User");
+  
+      } else {
+        console.log("No form data found in localStorage.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  
+    // ✅ Close Modal
+    setModalShow(false);
+  };
+  
+  
+  
+  
+  
 
-    return (
-        <form onSubmit={handleCalculate}>
-            <CenteredBlock>
-                <h2>คำนวณเงินเฟ้อ</h2>
-                <input
-                    className="fill-input"
-                    placeholder="จำนวนเงิน"
-                    name="Money_input"
-                    value={formData.Money_input}
-                    onChange={handleChange}
-                    type="number"
-                    min={1}
-                />
-                <input
-                    type="number"
-                    min={1}
-                    className="fill-input"
-                    placeholder="จำนวนปี"
-                    name="Year_input"
-                    value={formData.Year_input}
-                    onChange={handleChange}
-                /> 
-                <Button className="submit-button" variant="warning" type="submit">
-                    คำนวณ
-                </Button>
-            </CenteredBlock>
+  // ✅ Close modal without saving
+  const handleCloseWithoutSave = () => {
+    setModalShow(false);
+    localStorage.removeItem("inflationFormData");
 
-            {/* ✅ Modal for displaying result */}
-            <Modal show={modalShow} backdrop="static" keyboard={false} centered>
-                <Modal.Header>
-                    <Modal.Title>ผลลัพธ์</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <p>จำนวนเงินที่คุณกรอกคือ {formData.Money_input} บาท</p>
-                    <p>จำนวนปีที่คุณกรอกคือ {formData.Year_input} ปี</p>
-                    <p>จำนวนเงินที่คุณกรอกจะเปลี่ยนเป็น {formData.Result} บาท</p>
-                    <p>เปลี่ยนแปลงเป็นเงินเฟ้อ {formData.Percentage} %</p>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseWithoutSave}>
-                        ไม่บันทึก
-                    </Button>
-                    <Button variant="success" onClick={handleSaveAndClose}>
-                        บันทึก
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </form>
-    );
+  };
+
+  return (
+    <form onSubmit={handleCalculate}>
+      <CenteredBlock>
+        <h2>คำนวณเงินเฟ้อ</h2>
+        <input
+          className="fill-input"
+          placeholder="จำนวนเงิน"
+          name="Money_input"
+          value={formData.Money_input}
+          onChange={handleChange}
+          type="number"
+          min={1}
+        />
+        <input
+          type="number"
+          min={1}
+          className="fill-input"
+          placeholder="จำนวนปี"
+          name="Year_input"
+          value={formData.Year_input}
+          onChange={handleChange}
+        /> 
+        <Button className="submit-button" variant="warning" type="submit" disabled={loading}>
+          {loading ? "กำลังคำนวณ..." : "คำนวณ"}
+        </Button>
+      </CenteredBlock>
+
+      {/* ✅ Modal for displaying result */}
+      <Modal show={modalShow} backdrop="static" keyboard={false} centered>
+        <Modal.Header>
+          <Modal.Title>ผลลัพธ์</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>จำนวนเงินที่คุณกรอกคือ {formData.Money_input} บาท</p>
+          <p>จำนวนปีที่คุณกรอกคือ {formData.Year_input} ปี</p>
+          <p>จำนวนเงินที่คุณกรอกจะเปลี่ยนเป็น {formData.Result} บาท</p>
+          <p>เปลี่ยนแปลงเป็นเงินเฟ้อ {formData.Percentage} %</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseWithoutSave}>
+            ไม่บันทึก
+          </Button>
+          <Button variant="success" onClick={handleSaveAndClose}>
+            บันทึก
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </form>
+  );
 };

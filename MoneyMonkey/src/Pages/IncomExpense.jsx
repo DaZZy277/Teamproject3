@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // **modified**
 import { Table, Button, Modal, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+
 
 export const IncomeExpense = () => {
     const [expenses, setExpenses] = useState([]); // Store added expenses
@@ -7,6 +10,34 @@ export const IncomeExpense = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false); // Toggle delete modal
     const [newExpense, setNewExpense] = useState({ date: "", item: "", amount: "" });
     const [deleteIndex, setDeleteIndex] = useState(null); // Store index of expense to delete
+    const userEmail = localStorage.getItem("useremail");  // **added** Get logged-in user's email
+    const [deleteId, setDeleteId] = useState(null);  // Correctly define the state for deleteId
+    const [loading, setLoading] = useState(false);
+    
+    
+
+    const handleShow = (id) => {
+        setDeleteId(id); // Store the id of the item to delete
+        setShowDeleteModal(true);
+    };
+
+    // Fetch expenses function
+    // const fetchExpenses = () => {
+    //     const userEmail = localStorage.getItem("useremail");  // Get logged-in user's email
+    //     if (userEmail) {
+    //         // Fetch the expenses from the backend API
+    //         fetch(`http://localhost:5000/app/getexpenses?email=${userEmail}`)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 setExpenses(data);  // Set the fetched expenses in state
+    //                 setLoading(false);  // Set loading to false once data is fetched
+    //             })
+    //             .catch((error) => {
+    //                 console.error("Error fetching expenses:", error);
+    //                 setLoading(false);  // Set loading to false if an error occurs
+    //             });
+    //     }
+    // };
 
     // Handle Input Changes
     const handleChange = (e) => {
@@ -20,25 +51,35 @@ export const IncomeExpense = () => {
             return;
         }
 
-        // Send expense data to the server
+        if (!userEmail) {
+            alert("กรุณาเข้าสู่ระบบก่อนบันทึกข้อมูล!"); // Alert if user is not logged in
+            return;
+        }
+
+        // Include the email in the expense data
+        const expenseData = {
+            ...newExpense,
+            email: userEmail, // **added** Attach email to the expense data
+        };
+
         try {
             const response = await fetch('http://localhost:5000/app/expenses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newExpense),
+                body: JSON.stringify(expenseData),
             });
-
-            if (response.ok) {
-                const savedExpense = await response.json(); // Assuming the server returns the saved data
-                // Update expenses state with the newly added expense
-                setExpenses((prevExpenses) => [...prevExpenses, savedExpense]);
-                setNewExpense({ date: "", item: "", amount: "" }); // Reset input fields
-                setShowAddModal(false); // Close modal
-            } else {
-                throw new Error('Failed to add expense');
-            }
+            setShowAddModal(false); // Close modal
+            
+            // if (response.ok) {
+            //     const savedExpense = await response.json(); // Assuming the server returns the saved data
+            //     setExpenses((prevExpenses) => [...prevExpenses, savedExpense]);
+            //      // Reset input fields
+                
+            // } else {
+            //     throw new Error('Failed to add expense');
+            // }
         } catch (error) {
             alert('เกิดข้อผิดพลาดในการเพิ่มรายการ: ' + error.message); // Error message
         }
@@ -47,15 +88,30 @@ export const IncomeExpense = () => {
     // Open delete confirmation modal
     const confirmDeleteExpense = (index) => {
         setDeleteIndex(index);
-        setShowDeleteModal(true);
+        
     };
 
     // Delete expense
     const handleDeleteExpense = () => {
-        if (deleteIndex !== null) {
-            setExpenses(expenses.filter((_, i) => i !== deleteIndex)); // Remove selected expense
+        console.log("Delete ID:", deleteId);
+        if (deleteId) {
+            // Make API call to delete the result
+            fetch(`http://localhost:5000/app/deleteExpenses/${deleteId}`, {
+                method: 'POST',
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.message === "Result deleted successfully") {
+                        // Filter out the deleted result from the state
+                        setResults(expenses.filter(expenses => expenses._id !== deleteId));
+                    }
+                    setShowDeleteModal(false); // Close the modal
+                })
+                .catch((error) => {
+                    console.error("Error deleting result:", error);
+                });
         }
-        setShowDeleteModal(false); // Close delete modal
+        
         setDeleteIndex(null); // Reset delete index
     };
 
@@ -91,9 +147,53 @@ export const IncomeExpense = () => {
     // Sort expenses by date (newest to oldest)
     const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
 
+    
+    
+    // Fetch expenses when the component mounts
+    // Fetch expenses on component mount
+    useEffect(() => {
+        // const userEmail = localStorage.getItem("useremail");  // Get logged-in user's email
+        // if (userEmail) {
+        //     // Fetch the expenses from the backend API
+        //     fetch(`http://localhost:5000/app/getexpenses?email=${userEmail}`)
+        //         .then((response) => response.json())
+        //         .then((data) => {
+        //             setExpenses(data);  // Set the fetched expenses in state
+        //             setLoading(false);  // Set loading to false once data is fetched
+        //         })
+        //         .catch((error) => {
+        //             console.error("Error fetching expenses:", error);
+        //             setLoading(false);  // Set loading to false if an error occurs
+        //         });
+            
+        // }
+        const fetchExpenses = async () => {
+            const userEmail = localStorage.getItem("useremail"); // Get logged-in user's email
+            if (!userEmail) return;
+    
+            try {
+                const response = await fetch(`http://localhost:5000/app/getexpenses?email=${userEmail}`);
+                const data = await response.json();
+                if(data && data.length > 0){
+                    setExpenses(data);
+
+                }
+                 //setExpenses(data||defaultExpenseData); // Set the fetched expenses in state
+            } catch (error) {
+                
+                setExpenses([]);
+                console.error("Error fetching expenses:", error);
+            } finally {
+                setLoading(false); // Set loading to false once data is fetched or if an error occurs
+            }
+        };
+    
+         fetchExpenses();
+    }, []);
+
     return (
         <div className="container mt-4">
-            <h2 className="text-center mb-4">บัญชีรายรับรายจ่าย</h2>
+            <h3 className="text-center mb-4">บัญชีรายรับรายจ่าย ของ {userEmail}</h3>
 
             {/* Expense Table */}
             <Table striped bordered hover>
@@ -115,7 +215,7 @@ export const IncomeExpense = () => {
                                     {expense.amount} บาท
                                 </td>
                                 <td>
-                                    <Button variant="danger" onClick={() => confirmDeleteExpense(index)}>
+                                    <Button variant="danger" onClick={() => handleShow(expense._id)}>
                                         ลบ
                                     </Button>
                                 </td>
@@ -154,8 +254,8 @@ export const IncomeExpense = () => {
 
             {/* Add Expense Button */}
             <div className="d-flex justify-content-center mt-3">
-                <Button variant="primary" onClick={() => setShowAddModal(true)}>
-                    ➕ เพิ่มรายการ
+                <Button variant="success" onClick={() => setShowAddModal(true)}>
+                    + เพิ่มรายการ
                 </Button>
             </div>
 
@@ -216,7 +316,7 @@ export const IncomeExpense = () => {
                 <Modal.Body>
                     <p>คุณแน่ใจหรือไม่ว่าต้องการลบรายการนี้?</p>
                 </Modal.Body>
-                <Modal.Footer>
+		<Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
                         ยกเลิก
                     </Button>

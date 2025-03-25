@@ -13,7 +13,7 @@ function App() {
         <Route path="/InflationPre" element={<InflationPre />} />
         <Route path="/IncomeExpense" element={<IncomeExpense />} />
         <Route path="/User" element={<User />} /> 
-        <Route path="/MonkeyMoney" element={<MonkeyMoney />} /> 
+        <Route path="/Home" element={<MonkeyMoney />} /> 
         <Route path="/Login" element={<Login/>} />
         <Route path="/Register" element={<Register />} /> 
       </Routes>
