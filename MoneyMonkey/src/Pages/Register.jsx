@@ -11,6 +11,9 @@ export const Register = () => {
         confirmpass: "",
     });
 
+    // ✅ Initialize navigate hook for page redirection
+    const navigate = useNavigate();
+
     // ✅ Update state when input values change
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -60,7 +63,7 @@ export const Register = () => {
                alert("regster successful");
                localStorage.setItem("useremail", "keep_login");
                console.log(result)
-               navigate("/login");
+               navigate("/Login");
             }
             console.log("Backend Response:", result);
 

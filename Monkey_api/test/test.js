@@ -1,6 +1,6 @@
 const express = require("express");
 const { connectDB } = require("../connect-to-database/database");
-
+const { ObjectId } = require("mongodb");
 const router = express.Router();
 
 // Hello route for testing purposes
@@ -86,13 +86,13 @@ async function getResults(req, res) {
 async function deleteResult(req, res) {
     try {
         console.log("Delete ID:", req.params.id);
-        const { id } = req.params.id; // Get the result ID from the request params
-
+        const  id  = req.params.id; // Get the result ID from the request params
+        const objectId = new ObjectId(id);
         const db = await connectDB();
         const collection = await db.collection("archivecollections");
 
         // // Delete the result by its ID
-        await collection.deleteOne({ id });
+        await collection.deleteOne({ _id : objectId });
 
         
         res.status(200).json({ message: "Result deleted successfully" });
@@ -162,13 +162,13 @@ async function addExpense(req, res) {
 async function deleteExpenses(req, res) {
     try {
         console.log("Delete ID:", req.params.id);
-        const { id } = req.params.id; // Get the result ID from the request params
-
+        const  id  = req.params.id; // Get the result ID from the request params
+        const objectId = new ObjectId(id);
         const db = await connectDB();
         const collection = await db.collection("expenses");
 
         // // Delete the result by its ID
-        collection.deleteOne({ id });
+        collection.deleteOne({ _id : objectId });
 
         
         res.status(200).json({ message: "expenses deleted successfully" });

@@ -13,7 +13,7 @@ export const IncomeExpense = () => {
     const userEmail = localStorage.getItem("useremail");  // **added** Get logged-in user's email
     const [deleteId, setDeleteId] = useState(null);  // Correctly define the state for deleteId
     const [loading, setLoading] = useState(false);
-    
+    const navigate = useNavigate();
     
 
     const handleShow = (id) => {
@@ -80,6 +80,7 @@ export const IncomeExpense = () => {
             // } else {
             //     throw new Error('Failed to add expense');
             // }
+            window.location.reload();
         } catch (error) {
             alert('เกิดข้อผิดพลาดในการเพิ่มรายการ: ' + error.message); // Error message
         }
@@ -113,6 +114,8 @@ export const IncomeExpense = () => {
         }
         
         setDeleteIndex(null); // Reset delete index
+        window.location.reload();
+
     };
 
     // Calculate daily summaries
