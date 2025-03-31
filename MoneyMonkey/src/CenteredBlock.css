@@ -1,27 +1,27 @@
 /* Global Styles */
 .centered-block {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70vw;
-  min-height: 100vh; /* Ensure full screen height */
-  padding: 20px;
-  box-sizing: border-box;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  height: 75vh; /* Adjust height to fit the layout */
+  width: 90vw;
+  margin-top: 50px; /* Space from navbar */
 }
 
 .content {
-  background-color: #F7F7F7;
-  width: 70vw;
-  max-width: 900px; /* Prevent overflow */
+  background-color: #F7F7F7; 
+  width: 90vw;
+  height: 520px;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  min-height: auto;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center elements horizontally */
+  justify-content: center; /* Center elements vertically */
+  gap: 80px; /* Space between elements */
 }
 
 /* Image Styles */
