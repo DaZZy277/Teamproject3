@@ -1,16 +1,6 @@
-
-@font-face{
+/* Custom font definition */
+@font-face {
   font-family: "IBMPlexSansThai";
-  src:local("IBMPlexSansThai-Regular"),
-  url('./assets/fonts/IBMPlexSansThai-Regular.ttf') 
+  src: local("IBMPlexSansThai-Regular"), url('./assets/fonts/IBMPlexSansThai-Regular.ttf');
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-  body{
-    font-family: IBMPlexSansThai;
-}
