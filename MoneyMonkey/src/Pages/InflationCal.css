@@ -40,7 +40,16 @@ input.form-control {
   padding: 12px;
   font-size: 1.2rem; /* Slightly larger font for input */
   border-radius: 8px;
+  border: 2px solid #ccc; /* Increased border width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow */
+  transition: box-shadow 0.3s ease, border 0.3s ease; /* Smooth transition for focus effects */
 }
+
+input.form-control:focus {
+  border: 2px solid #F6C90E; /* Highlight border on focus */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increased shadow on focus */
+}
+
 
 /* Call-to-Action Button Styling */
 button {

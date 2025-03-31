@@ -202,7 +202,7 @@ export const IncomeExpense = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>เดือน / วัน / ปี</th>
+                        <th>วันที่</th>
                         <th>รายการ</th>
                         <th>จำนวนเงิน</th>
                         <th>การจัดการ</th>
@@ -239,7 +239,7 @@ export const IncomeExpense = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>เดือน / วัน  / ปี</th>
+                        <th>วันที่</th>
                         <th>ยอดรวม (บาท)</th>
                     </tr>
                 </thead>
@@ -270,7 +270,7 @@ export const IncomeExpense = () => {
                 <Modal.Body>
                     <Form>
                         <Form.Group className="mb-3">
-                            <Form.Label>วัน / เดือน / ปี</Form.Label>
+                            <Form.Label>วันที่</Form.Label>
                             <Form.Control
                                 type="date"
                                 name="date"
