@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css"; // Custom styles (if any)
 
 export const Navbar = () => {
@@ -52,12 +52,12 @@ export const Navbar = () => {
           aria-expanded={menuOpen ? "true" : "false"} // Set the aria-expanded dynamically
           aria-label="Toggle navigation"
         >
-          <span className="navbar-toggler-icon"></span> {/* Bootstrap icon for the toggle */}
+          <span className="navbar-toggler-icon"></span>
         </button>
 
         {/* Navbar Links */}
         <div
-          className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`} // Toggle collapse class
+          className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`}
           id="navbarNav"
         >
           <ul className="navbar-nav mx-auto align-items-center gap-3">

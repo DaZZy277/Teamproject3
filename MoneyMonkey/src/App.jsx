@@ -9,7 +9,9 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/InflationCal" element={<InflationCal />} />
+        
+        <Route path="/" element={<MonkeyMoney />} />
+        <Route path="/InflationCal" element={<InflationCal />} /> 
         <Route path="/InflationPre" element={<InflationPre />} />
         <Route path="/IncomeExpense" element={<IncomeExpense />} />
         <Route path="/User" element={<User />} /> 

@@ -1,5 +1,8 @@
+/* Global Font Styles */
 body {
-      font-family: 'IBM Plex Sans Thai', sans-serif !important;
+    font-family: 'IBM Plex Sans Thai', sans-serif !important;
+    margin: 0;
+    padding: 0;
 }
 
 /* Navbar Base Styles */
@@ -20,7 +23,6 @@ body {
 .navbar-brand .dotcom {
     font-size: 20px;
     color: #F7F7F7;
-    
 }
 
 /* Navbar Toggler */
@@ -30,12 +32,12 @@ body {
     justify-content: center;
 }
 
-.navbar-toggler-icon{
+.navbar-toggler-icon {
     display: flex;
     justify-self: center;
 }
 
-.nav-item{
+.nav-item {
     cursor: pointer;
     padding-top: 20px;
 }
@@ -51,25 +53,34 @@ body {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Login Link */
-.navbar-nav .nav-link.text-warning {
-    font-size: 18px;
-    font-weight: 700;
-}
-
 /* Mobile Menu Styling */
-@media (max-width: 992px) {
+@media (max-width: 375px) {
+    /* Navbar */
+    .navbar {
+        height: 70px;
+    }
+
+    .navbar-brand {
+        font-size: 28px; /* Increase font size for mobile */
+        margin-left: 10px; /* Adjust margin */
+    }
+
+    /* Navbar Links */
+    .navbar-nav .nav-link {
+        font-size: 16px; /* Adjust font size for mobile */
+        padding: 8px 10px; /* Adjust padding for mobile */
+    }
+
+    /* Mobile Menu */
     .navbar-collapse {
         background-color: #212121 !important;
         position: absolute;
-        top: 80px;
+        top: 70px;
         left: 0;
         width: 100%;
         padding: 10px 0;
         z-index: 1000;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         max-height: 0;
-        overflow: hidden;
         opacity: 0;
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
     }
@@ -82,14 +93,14 @@ body {
     .navbar-nav {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 15px; /* Adjust gap for mobile */
     }
-    
+
     .navbar-nav .nav-item {
         width: 100%;
         text-align: center;
     }
-    
+
     .navbar-nav .nav-link {
         padding: 12px;
         width: 100%;
@@ -98,19 +109,45 @@ body {
         transform: translateY(0);
     }
 
-    /* Fade-in effect for menu links when navbar opens */
-    .navbar-collapse.show .nav-link {
-        animation: fadeIn 0.5s ease-in-out forwards;
+    /* CenteredBlock - Mobile Adjustments */
+    .centered-block {
+        padding: 25px 15px; /* Increase padding for more space on small screens */
+        min-height: 70vh; /* Set height for mobile */
+        justify-content: flex-start; /* Align content from top */
     }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .content {
+        width: 100%;
+        max-width: 90%; /* Set max width for better spacing */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background-color: #F7F7F7;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    /* Description Font Size Adjustment */
+    .description {
+        font-size: 18px; /* Larger font for readability */
+        line-height: 1.6; /* Increase line height */
+        text-align: center;
+        padding: 10px;
+    }
+
+    /* Button Styling */
+    .btn {
+        font-size: 18px; /* Increase button text size */
+        padding: 12px 25px; /* Increase button padding */
+        margin-top: 15px;
+    }
+
+    /* Image Styling for Mobile */
+    img {
+        width: 100%; /* Make image responsive */
+        max-width: 300px; /* Limit image size on small screens */
+        height: auto;
     }
 }

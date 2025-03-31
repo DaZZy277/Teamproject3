@@ -202,7 +202,7 @@ export const IncomeExpense = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>วัน / เดือน / ปี</th>
+                        <th>เดือน / วัน / ปี</th>
                         <th>รายการ</th>
                         <th>จำนวนเงิน</th>
                         <th>การจัดการ</th>
@@ -239,7 +239,7 @@ export const IncomeExpense = () => {
             <Table striped bordered hover>
                 <thead>
                     <tr>
-                        <th>วัน / เดือน / ปี</th>
+                        <th>เดือน / วัน  / ปี</th>
                         <th>ยอดรวม (บาท)</th>
                     </tr>
                 </thead>
