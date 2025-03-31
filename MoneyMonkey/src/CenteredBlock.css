@@ -3,25 +3,35 @@
   display: flex;
   align-items: center; /* Center vertically */
   justify-content: center; /* Center horizontally */
-  height: 75vh; /* Adjust height to fit the layout */
-  width: 90vw;
-  margin-top: 50px; /* Space from navbar */
+  height: 100vh; /* Full height of the viewport */
+  width: 100vw; /* Full width */
+  margin: 0; /* Remove margin to fully center */
+  overflow: hidden; /* Prevent scrolling */
 }
 
+/* Content Box */
 .content {
-  background-color: #F7F7F7; 
+  background-color: #F7F7F7;
   width: 90vw;
-  height: 520px;
+  max-width: 850px; /* Prevent it from stretching too much */
+  height: auto; /* Adjust to content height */
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
   
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  align-items: center; /* Center elements horizontally */
-  justify-content: center; /* Center elements vertically */
-  gap: 80px; /* Space between elements */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  position: relative;
+}
+
+/* Ensure no scrolling */
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevent page scrolling */
 }
 
 /* Image Styles */
@@ -31,10 +41,10 @@ img {
   height: auto;
   object-fit: cover;
   border-radius: 8px;
-  transition: opacity 0.3s ease, visibility 0s ease 0.3s;
+  transition: opacity 0.3s ease;
 }
 
-/* Description Styles */
+/* Description Box */
 .description {
   position: absolute;
   top: 50%;
@@ -49,32 +59,25 @@ img {
   max-width: 80%;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0s ease 0.3s;
+  transition: opacity 0.3s ease;
 }
 
-/* Hover Effect for Image and Description */
-.content:hover img {
-  opacity: 0;
-  visibility: hidden;
-}
-
+/* Hover Effect - Show Description Only */
 .content:hover .description {
   opacity: 1;
   visibility: visible;
 }
 
-/* Mobile View - Zooming In */
+/* Ensure Image Stays Visible */
+.content:hover img {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile View */
 @media (max-width: 768px) {
-  body {
-    zoom: 1.2; /* Apply a zoom of 1.2 for mobile devices */
-  }
-
-  .centered-block {
-    padding: 10px;
-    min-height: 100vh;
-  }
-
   .content {
+    width: 95vw;
     padding: 15px;
   }
 
@@ -84,17 +87,10 @@ img {
   }
 }
 
-/* Very Small Devices (Portrait Phones) */
+/* Very Small Devices */
 @media (max-width: 480px) {
-  body {
-    zoom: 1.3; /* Increase zoom for very small screens */
-  }
-
-  .centered-block {
-    min-height: 400px;
-  }
-
   .content {
+    width: 98vw;
     padding: 10px;
   }
 

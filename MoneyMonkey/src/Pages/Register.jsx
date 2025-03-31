@@ -2,72 +2,67 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SubmitButton from "../SubmitButton";
 import { useNavigate } from "react-router-dom";
+import './register.css'; // As
 
 export const Register = () => {
-    // ✅ State for form data
     const [formData, setFormData] = useState({
         email: "",
         pass: "",
         confirmpass: "",
     });
 
-    // ✅ Initialize navigate hook for page redirection
     const navigate = useNavigate();
 
-    // ✅ Update state when input values change
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // ✅ Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // ✅ Check if passwords match
+        // Check if passwords match
         if (formData.pass !== formData.confirmpass) {
-            alert("รหัสผ่านไม่ตรงกัน กรุณาลองใหม่!"); // Alert when passwords don’t match
-            return; // Stop the function, do NOT send data
+            alert("รหัสผ่านไม่ตรงกัน กรุณาลองใหม่!");
+            return;
         }
 
         try {
-            //if has local storage
-            const localformData =  JSON.parse(localStorage.getItem("inflationFormData"));
-            if (localformData){
+            // Handle form data with local storage if available
+            const localformData = JSON.parse(localStorage.getItem("inflationFormData"));
+            if (localformData) {
                 const bodyData = { ...localformData, ...formData };
-                    const response_local = await fetch("http://localhost:5000/app/resultsave", {
+                const response_local = await fetch("http://localhost:5000/app/resultsave", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(bodyData),
                 });
 
-            const result_local = response_local.json();
-            console.log("Backend Response:", result_local);
+                const result_local = await response_local.json();
+                console.log("Backend Response:", result_local);
             }
 
-            // Send form register data to the server
+            // Send registration data to the server
             const response = await fetch('http://localhost:5000/app/regdata', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData) // Send form data
+                body: JSON.stringify(formData)
             });
 
             const result = await response.json();
             const status = response.status;
-            console.log(status);
-            if (status === 400) {
-               alert("the email already exists");
-               return;
-            }else{
-               alert("regster successful");
-               localStorage.setItem("useremail", "keep_login");
-               console.log(result)
-               navigate("/Login");
-            }
-            console.log("Backend Response:", result);
 
-            // ✅ Optionally clear the form after submission
+            if (status === 400) {
+                alert("อีเมลนี้มีบัญชีแล้ว");
+                return;
+            } else {
+                alert("ลงทะเบียนสำเร็จ");
+                localStorage.setItem("useremail", "keep_login");
+                navigate("/Login");
+            }
+
+            // Clear form data after submission
             setFormData({
                 email: "",
                 pass: "",
