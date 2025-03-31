@@ -21,23 +21,6 @@ export const IncomeExpense = () => {
         setShowDeleteModal(true);
     };
 
-    // Fetch expenses function
-    // const fetchExpenses = () => {
-    //     const userEmail = localStorage.getItem("useremail");  // Get logged-in user's email
-    //     if (userEmail) {
-    //         // Fetch the expenses from the backend API
-    //         fetch(`http://localhost:5000/app/getexpenses?email=${userEmail}`)
-    //             .then((response) => response.json())
-    //             .then((data) => {
-    //                 setExpenses(data);  // Set the fetched expenses in state
-    //                 setLoading(false);  // Set loading to false once data is fetched
-    //             })
-    //             .catch((error) => {
-    //                 console.error("Error fetching expenses:", error);
-    //                 setLoading(false);  // Set loading to false if an error occurs
-    //             });
-    //     }
-    // };
 
     // Handle Input Changes
     const handleChange = (e) => {
@@ -152,24 +135,9 @@ export const IncomeExpense = () => {
 
     
     
-    // Fetch expenses when the component mounts
-    // Fetch expenses on component mount
+    
     useEffect(() => {
-        // const userEmail = localStorage.getItem("useremail");  // Get logged-in user's email
-        // if (userEmail) {
-        //     // Fetch the expenses from the backend API
-        //     fetch(`http://localhost:5000/app/getexpenses?email=${userEmail}`)
-        //         .then((response) => response.json())
-        //         .then((data) => {
-        //             setExpenses(data);  // Set the fetched expenses in state
-        //             setLoading(false);  // Set loading to false once data is fetched
-        //         })
-        //         .catch((error) => {
-        //             console.error("Error fetching expenses:", error);
-        //             setLoading(false);  // Set loading to false if an error occurs
-        //         });
-            
-        // }
+        
         const fetchExpenses = async () => {
             const userEmail = localStorage.getItem("useremail"); // Get logged-in user's email
             if (!userEmail) return;
@@ -198,7 +166,38 @@ export const IncomeExpense = () => {
         <div className="container mt-4">
             <h3 className="text-center mb-4">บัญชีรายรับรายจ่าย ของ {userEmail}</h3>
 
+            <div className="d-flex justify-content-center mt-3">
+                <Button variant="success" onClick={() => setShowAddModal(true)}>
+                    + เพิ่มรายการ
+                </Button>
+            </div>
+            <br></br>
+
+            
+
+            {/* Daily Summary */}
+            <h3 className="mt-4">สรุปยอดรายวัน</h3>
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>วันที่</th>
+                        <th>ยอดรวม (บาท)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {getDailySummary().map(([date, total]) => (
+                        <tr key={date}>
+                            <td>{date}</td>
+                            <td style={getSummaryStyle(total)}>
+                                {total.toFixed(2)} บาท
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table>
+            
             {/* Expense Table */}
+            <h3 className="mt-4">รายการ</h3>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -234,34 +233,7 @@ export const IncomeExpense = () => {
                 </tbody>
             </Table>
 
-            {/* Daily Summary */}
-            <h3 className="mt-4">สรุปยอดรายวัน</h3>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>วันที่</th>
-                        <th>ยอดรวม (บาท)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {getDailySummary().map(([date, total]) => (
-                        <tr key={date}>
-                            <td>{date}</td>
-                            <td style={getSummaryStyle(total)}>
-                                {total.toFixed(2)} บาท
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </Table>
-
-            {/* Add Expense Button */}
-            <div className="d-flex justify-content-center mt-3">
-                <Button variant="success" onClick={() => setShowAddModal(true)}>
-                    + เพิ่มรายการ
-                </Button>
-            </div>
-
+        
             {/* Add Expense Modal */}
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
                 <Modal.Header closeButton>
@@ -328,6 +300,8 @@ export const IncomeExpense = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <br></br>
         </div>
+        
     );
 };

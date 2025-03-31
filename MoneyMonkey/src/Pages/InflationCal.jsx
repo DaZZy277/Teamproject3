@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import CenteredBlock from "../CenteredBlock";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
@@ -178,7 +177,7 @@ export const InflationCal = () => {
             <Button variant="secondary" onClick={() => setModalShow(false)}>
               ปิด
             </Button>
-            <Button variant="primary" onClick={handleSaveAndClose}>
+            <Button variant="success" onClick={handleSaveAndClose}>
               บันทึกข้อมูล
             </Button>
           </Modal.Footer>

@@ -47,53 +47,61 @@ body {
     font-size: 18px;
     font-weight: 600;
     color: #ffffff !important;
+    background-color: #212121 ;
     padding: 10px 15px;
     opacity: 100;
     transform: translateY(-10px);
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+.container-fluid {
+    background-color: #212121;
+    z-index: 1000;
+}
+
 /* Mobile Menu Styling */
-@media (max-width: 375px) {
+@media (max-width: 350px) {
     /* Navbar */
     .navbar {
         height: 70px;
     }
 
     .navbar-brand {
-        font-size: 28px; /* Increase font size for mobile */
-        margin-left: 10px; /* Adjust margin */
+        font-size: 28px;
+        margin-left: 10px;
     }
 
     /* Navbar Links */
     .navbar-nav .nav-link {
-        font-size: 16px; /* Adjust font size for mobile */
-        padding: 8px 10px; /* Adjust padding for mobile */
+        font-size: 16px;
+        padding: 8px 10px;
     }
 
     /* Mobile Menu */
     .navbar-collapse {
         background-color: #212121 !important;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        padding: 10px 0;
+        padding: 10px ;
+        border-radius: 5px;
+        display: none; /* Ensure it's hidden initially */
         z-index: 1000;
-        max-height: 0;
-        opacity: 0;
-        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out;
+    }
+
+    .navbar-nav .nav-link {
+        color: white !important;
     }
 
     .navbar-collapse.show {
         max-height: 500px;
+        background-color: #212121 !important;
+        display: block;
         opacity: 1;
+        
     }
 
     .navbar-nav {
         flex-direction: column;
         align-items: center;
-        gap: 15px; /* Adjust gap for mobile */
+        gap: 15px;
     }
 
     .navbar-nav .nav-item {
@@ -108,46 +116,5 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
-
-    /* CenteredBlock - Mobile Adjustments */
-    .centered-block {
-        padding: 25px 15px; /* Increase padding for more space on small screens */
-        min-height: 70vh; /* Set height for mobile */
-        justify-content: flex-start; /* Align content from top */
-    }
-
-    .content {
-        width: 100%;
-        max-width: 90%; /* Set max width for better spacing */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        background-color: #F7F7F7;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    /* Description Font Size Adjustment */
-    .description {
-        font-size: 18px; /* Larger font for readability */
-        line-height: 1.6; /* Increase line height */
-        text-align: center;
-        padding: 10px;
-    }
-
-    /* Button Styling */
-    .btn {
-        font-size: 18px; /* Increase button text size */
-        padding: 12px 25px; /* Increase button padding */
-        margin-top: 15px;
-    }
-
-    /* Image Styling for Mobile */
-    img {
-        width: 100%; /* Make image responsive */
-        max-width: 300px; /* Limit image size on small screens */
-        height: auto;
-    }
 }
+

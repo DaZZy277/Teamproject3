@@ -30,7 +30,7 @@
 /* Image Styling */
 .monkey-money-container img {
   width: 100%;
-  max-width: 300px; /* Smaller image width */
+  max-width: 500px; /* Smaller image width */
   height: auto;
   border-radius: 12px;
   margin-bottom: 20px; /* Adjusted bottom margin */
