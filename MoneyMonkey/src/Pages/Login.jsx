@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import LoginBlock from "../LoginBlock";
-import FillBox from "../FillBox";
 import SubmitButton from "../SubmitButton";
 import { Link } from "react-router-dom";
 import { Button, Form, Container, Row, Col, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import LoginBlock from "../LoginBlock";
 
 export const Login = () => {
     const [formData, setFormData] = useState({
